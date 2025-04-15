@@ -5,7 +5,7 @@
 @section('content')
     <div class="container mx-auto px-4 py-8">
         <div class="bg-white rounded-lg shadow-md overflow-hidden max-w-4xl mx-auto">
-            <img src="{{ $post->image_path }}" alt="{{ $post->title }}" class="w-full h-64 object-cover">
+            <img src="{{ asset('storage/' . $post->image_path) }}" alt="{{ $post->title }}" class="w-full h-64 object-cover">
 
             <div class="p-6">
                 <div class="flex justify-between items-center mb-4">

@@ -100,7 +100,7 @@ class AdminPostController extends Controller
                 ->withErrors(['province_id' => 'You can only create posts for your assigned province.'])
                 ->withInput();
         }
-
+        
         // image upload
         if ($request->hasFile('image')) {
             $validated['image_path'] = $request->file('image')->store('post-images', 'public');

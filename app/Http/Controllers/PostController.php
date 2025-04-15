@@ -90,7 +90,7 @@ class PostController extends Controller
             'province_id' => $validated['province_id'],
             'user_id' => Auth::user()->id,
             'status' => 'pending',
-            'image_path' => $imagePath ? asset('storage/' . $imagePath) : null,
+            'image_path' => $imagePath ?? null,
             'views' => 0,
             'likes' => 0,
         ]);

@@ -27,7 +27,7 @@
         </div>
 
         @if($post->image_path)
-        <img src="{{ $post->image_path }}" alt="{{ $post->title }}" class="w-full h-64 object-cover">
+        <img src="{{ asset('storage/' . $post->image_path) }}" alt="{{ $post->title }}" class="w-full h-64 object-cover">
         @endif
 
         <div class="p-6">

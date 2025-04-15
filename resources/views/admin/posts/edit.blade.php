@@ -85,7 +85,7 @@
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Current Image</label>
                         <div class="border border-gray-200 rounded-md p-2">
-                            <img src="{{ $post->image_path }}" alt="Current Image" class="h-40 object-cover">
+                            <img src="{{ asset('storage/' . $post->image_path) }}" alt="Current Image" class="h-40 object-cover">
                         </div>
                     </div>
                 @endif
