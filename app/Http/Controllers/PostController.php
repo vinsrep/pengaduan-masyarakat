@@ -104,17 +104,21 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        // Get viewed posts from session or initialize empty array
-        $viewedPosts = session()->get('viewed_posts', []);
+        // Prevent admin and staff from incrementing the view count
+        $user = Auth::user();
+        if (!$user || ($user->role !== 'admin' && $user->role !== 'staff')) {
+            // Get viewed posts from session or initialize empty array
+            $viewedPosts = session()->get('viewed_posts', []);
 
-        // Check if this post has already been viewed in this session
-        if (!in_array($post->id, $viewedPosts)) {
-            // Add post ID to viewed posts array and save to session
-            $viewedPosts[] = $post->id;
-            session()->put('viewed_posts', $viewedPosts);
+            // Check if this post has already been viewed in this session
+            if (!in_array($post->id, $viewedPosts)) {
+                // Add post ID to viewed posts array and save to session
+                $viewedPosts[] = $post->id;
+                session()->put('viewed_posts', $viewedPosts);
 
-            // Increment the view count
-            $post->increment('views');
+                // Increment the view count
+                $post->increment('views');
+            }
         }
 
         return view('posts.show', compact('post'));

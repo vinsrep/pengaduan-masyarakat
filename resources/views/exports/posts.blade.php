@@ -1,6 +1,9 @@
 <table>
     <thead>
         <tr>
+            <th colspan="10" style="text-align: center; font-weight: bold;">Daftar laporan Pengaduan Masyarakat</th>
+        </tr>
+        <tr>
             <th>ID</th>
             <th>Title</th>
             <th>Content</th>
