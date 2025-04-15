@@ -34,4 +34,15 @@
         </div>
         @stack('scripts')
     </body>
+
+        <!-- Footer -->
+        <footer class="bg-white shadow py-6">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-center">
+                    <p class="text-sm text-gray-500">
+                        &copy; {{ date('Y') }} Pengaduan Masyarakat. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </footer>
 </html>

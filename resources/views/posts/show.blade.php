@@ -27,7 +27,6 @@
                         <span>{{ $post->likes }} likes</span>
                     </div>
                     <div class="flex items-center">
-                        <!-- In your posts/show.blade.php or posts/index.blade.php -->
                         <form action="{{ route('posts.like', $post->id) }}" method="POST">
                             @csrf
                             <button type="submit"

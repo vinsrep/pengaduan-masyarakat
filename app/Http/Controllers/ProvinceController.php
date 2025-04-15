@@ -17,7 +17,7 @@ class ProvinceController extends Controller
         $query = Province::query();
 
         if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($request->search) . '%']);
         }
 
         $provinces = $query->withCount(['users', 'posts'])

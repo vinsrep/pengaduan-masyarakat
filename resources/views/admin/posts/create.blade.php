@@ -22,7 +22,7 @@
             <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <!-- User Selection (for admins) -->
+                <!-- User Selection (admin) -->
                 <div class="mb-6">
                     <label for="user_id" class="block text-sm font-medium text-gray-700 mb-2">User (Post Author)</label>
                     <select name="user_id" id="user_id"

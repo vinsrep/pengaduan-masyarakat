@@ -16,8 +16,26 @@ class CommentSeeder extends Seeder
     {
         $posts = Post::all();
         $users = User::all();
+        
+        $realComments = [
+            'Terima kasih atas tanggapan cepatnya!',
+            'Saya juga mengalami masalah yang sama di daerah saya.',
+            'Sudah berapa lama masalah ini terjadi?',
+            'Mohon ditindaklanjuti dengan segera.',
+            'Alhamdulillah sudah ada perbaikan di daerah kami.',
+            'Kapan kira-kira akan selesai?',
+            'Saya setuju dengan laporan ini, kondisinya memang memprihatinkan.',
+            'Tolong dijelaskan prosedur pengaduannya seperti apa?',
+            'Daerah kami juga butuh perhatian untuk masalah serupa.',
+            'Sudah 3 bulan belum ada tindak lanjut.',
+            'Bagaimana cara mengajukan pengaduan resmi?',
+            'Mohon bantuannya, ini sangat mendesak.',
+            'Semoga cepat teratasi masalahnya.',
+            'Saya sudah melaporkan ini sejak tahun lalu.',
+            'Apakah ada nomor telepon yang bisa dihubungi untuk info lebih lanjut?'
+        ];
 
-        // Add between 0-5 comments for each post
+        // add 0-5 random comments
         foreach ($posts as $post) {
             $commentCount = rand(0, 5);
 
@@ -25,7 +43,7 @@ class CommentSeeder extends Seeder
                 Comment::create([
                     'post_id' => $post->id,
                     'user_id' => $users->random()->id,
-                    'comment' => fake()->paragraph(),
+                    'comment' => $realComments[array_rand($realComments)],
                     'created_at' => fake()->dateTimeBetween($post->created_at, 'now')
                 ]);
             }

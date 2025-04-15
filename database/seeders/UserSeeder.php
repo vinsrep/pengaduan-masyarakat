@@ -13,7 +13,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create admin user
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
@@ -21,7 +20,6 @@ class UserSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        // Create regular user
         User::create([
             'name' => 'Guest',
             'email' => 'guest@gmail.com',
@@ -29,7 +27,7 @@ class UserSeeder extends Seeder
             'role' => 'user',
         ]);
 
-        // Create staff users (one for each province)
+        // Staffs
         for ($i = 1; $i <= 10; $i++) {
             User::create([
                 'name' => 'Staff User ' . $i,
@@ -40,10 +38,9 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        // Create regular users
         User::factory(20)->create();
 
-        // Create users with specific provinces
+        // specific provinces
         User::factory(15)->create([
             'province_id' => function() {
                 return rand(1, 10); // Assume we have 10 provinces

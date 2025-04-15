@@ -23,18 +23,14 @@ class CommentController extends Controller
      */
     public function store(Request $request, $postId = null)
     {
-        // Validate the request data
         $request->validate([
             'comment' => 'required|string|max:1000',
         ]);
 
-        // Get post ID from route parameter if not in the request
+        // get id from route param kalo gaada di req
         $postId = $postId ?: $request->input('post_id');
-
-        // Make sure the post exists
         $post = Post::findOrFail($postId);
 
-        // Create the comment
         Comment::create([
             'post_id' => $post->id,
             'user_id' => Auth::id(),
@@ -50,7 +46,7 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        // Check if user is authorized to delete this comment
+        // kalo komen sendiri & admin/staff boleh hapus
         if (Auth::id() !== $comment->user_id && !in_array(Auth::user()->role, ['admin', 'staff'])) {
             return redirect()->back()->with('error', 'You are not authorized to delete this comment.');
         }

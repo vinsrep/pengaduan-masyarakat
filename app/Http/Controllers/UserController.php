@@ -11,7 +11,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        // Return the view for listing users
         $users = \App\Models\User::with(['province'])->latest()->paginate(10)->withQueryString();
         return view('admin.users.index', compact('users'));
     }
@@ -21,7 +20,6 @@ class UserController extends Controller
      */
     public function create()
     {
-        // Return the view for creating a new user
         return view('admin.users.create');
     }
 
@@ -30,15 +28,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // Handle storing the new user
-        // Example: Validate and save user data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8',
         ]);
 
-        // Create the user
         \App\Models\User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
@@ -53,7 +48,6 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        // Return the view for showing a specific user
         $user = \App\Models\User::findOrFail($id);
         return view('admin.users.show', compact('user'));
     }
@@ -63,7 +57,6 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        // Return the view for editing a user
         $user = \App\Models\User::findOrFail($id);
         return view('admin.users.edit', compact('user'));
     }
@@ -73,7 +66,6 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Handle updating the user
         $user = \App\Models\User::findOrFail($id);
 
         $validatedData = $request->validate([
@@ -91,7 +83,6 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        // Handle deleting the user
         $user = \App\Models\User::findOrFail($id);
         $user->delete();
 

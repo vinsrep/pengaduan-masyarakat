@@ -15,7 +15,7 @@ class PostExport implements FromView, ShouldAutoSize, WithStyles
 
     public function __construct($posts)
     {
-        // If we received a paginator, get the underlying collection
+        // get collection if paginator
         if (method_exists($posts, 'getCollection')) {
             $this->posts = $posts->getCollection();
         } else {
@@ -33,7 +33,6 @@ class PostExport implements FromView, ShouldAutoSize, WithStyles
     public function styles(Worksheet $sheet)
     {
         return [
-            // Style the first row as bold text with background
             1 => [
                 'font' => ['bold' => true],
             ],

@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    @if (auth()->user()->role === 'admin')
+                    {{-- @if (auth()->user()->role === 'admin')
                         <a href="{{ route('admin.dashboard') }}">
                             <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                         </a>
@@ -13,7 +13,10 @@
                         <a href="{{ route('staff.dashboard') }}">
                             <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                         </a>
-                    @endif
+                    @endif --}}
+                    <div class="flex justify-center items-center">
+                        <img class="object-cover h-16 w-16 " src="{{ asset('assets/sulu.png') }}" alt="">
+                    </div>
                 </div>
 
                 <!-- Navigation Links -->

@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AdminPostController extends Controller
 {
-    // Define the route prefix for the admin and staff roles
+    // alternating staff -- admin
     protected function getRoutePrefix()
     {
         if (Auth::user()->role === 'admin') {
@@ -45,7 +45,7 @@ class AdminPostController extends Controller
             $query->where('province_id', $request->province_id);
         }
 
-        // Staff can only see posts from their province
+        // staff regional limit
         if (Auth::user()->role === 'staff' && Auth::user()->province_id) {
             $query->where('province_id', Auth::user()->province_id);
         }
@@ -94,14 +94,14 @@ class AdminPostController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Check if staff is trying to create post for other province
+        // staff regional limit guard
         if (Auth::user()->role === 'staff' && Auth::user()->province_id != $validated['province_id']) {
             return redirect()->back()
                 ->withErrors(['province_id' => 'You can only create posts for your assigned province.'])
                 ->withInput();
         }
 
-        // Handle image upload
+        // image upload
         if ($request->hasFile('image')) {
             $validated['image_path'] = $request->file('image')->store('post-images', 'public');
         }
@@ -128,7 +128,7 @@ class AdminPostController extends Controller
      */
     public function show(Post $post)
     {
-        // Check if staff is trying to view post from other province
+        // staff regional limit guard
         if (Auth::user()->role === 'staff' && Auth::user()->province_id != $post->province_id) {
             abort(403, 'You can only view posts from your assigned province.');
         }
@@ -144,7 +144,7 @@ class AdminPostController extends Controller
      */
     public function edit(Post $post)
     {
-        // Check if staff is trying to edit post from other province
+        // staff regional limit guard
         if (Auth::user()->role === 'staff' && Auth::user()->province_id != $post->province_id) {
             abort(403, 'You can only edit posts from your assigned province.');
         }
@@ -158,7 +158,6 @@ class AdminPostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        // Check if staff is trying to edit post from other province
         if (Auth::user()->role === 'staff' && Auth::user()->province_id != $post->province_id) {
             abort(403, 'You can only update posts from your assigned province.');
         }
@@ -172,14 +171,13 @@ class AdminPostController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Check if staff is trying to move post to other province
         if (Auth::user()->role === 'staff' && $validated['province_id'] != Auth::user()->province_id) {
             return redirect()->back()
                 ->withErrors(['province_id' => 'You can only assign posts to your own province.'])
                 ->withInput();
         }
 
-        // Handle image upload
+        // image upload
         if ($request->hasFile('image')) {
             // Delete old image if exists
             if ($post->image_path && Storage::disk('public')->exists($post->image_path)) {
@@ -208,7 +206,6 @@ class AdminPostController extends Controller
      */
     public function updateStatus(Request $request, Post $post)
     {
-        // Check if staff is trying to update post from other province
         if (Auth::user()->role === 'staff' && Auth::user()->province_id != $post->province_id) {
             abort(403, 'You can only update posts from your assigned province.');
         }
@@ -231,17 +228,15 @@ class AdminPostController extends Controller
      */
     public function destroy(Post $post)
     {
-        // Check if staff is trying to delete post from other province
         if (Auth::user()->role === 'staff' && Auth::user()->province_id != $post->province_id) {
             abort(403, 'You can only delete posts from your assigned province.');
         }
 
-        // Delete image if exists
         if ($post->image_path && Storage::disk('public')->exists($post->image_path)) {
             Storage::disk('public')->delete($post->image_path);
         }
 
-        // Delete post and related comments
+        // delete comments juga
         $post->comments()->delete();
         $post->delete();
 
@@ -251,10 +246,9 @@ class AdminPostController extends Controller
 
     public function export(Request $request)
     {
-        // Create a query similar to the index method
         $query = Post::with(['user', 'province']);
 
-        // Apply the same filters as in the index method
+        // apply filters (supaya yang di export sama sama yang di index)
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -271,7 +265,6 @@ class AdminPostController extends Controller
             $query->where('province_id', $request->province_id);
         }
 
-        // Staff can only export posts from their province
         if (Auth::user()->role === 'staff' && Auth::user()->province_id) {
             $query->where('province_id', Auth::user()->province_id);
         }
